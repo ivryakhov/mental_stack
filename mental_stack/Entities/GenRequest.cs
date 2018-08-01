@@ -6,5 +6,11 @@
         public Request Request { get; set; }
         public Session Session { get; set; }
         public string Version { get; set; }
+
+
+        public GenResponse Process()
+        {
+            var command = Request.Parse();
+        }
     }
 }

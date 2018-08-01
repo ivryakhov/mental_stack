@@ -12,5 +12,15 @@ namespace mental_stack.Entities
         public string Type  { get; set; }
         public Markup Markup { get; set; }
         public Payload Payload { get; set; }
+
+        public string Parse()
+        {
+            if (Command == "положи на стек")
+                return "PUT";
+            else if (Command == "возьми со стека")
+                return "GET";
+            else
+                return "UNKNOWN";
+        }
     }
 }

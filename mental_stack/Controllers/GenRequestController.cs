@@ -1,7 +1,6 @@
 ﻿using mental_stack.Entities;
 using Microsoft.AspNetCore.Mvc;
 
-
 namespace mental_stack.Controllers
 {
     [Route("")]
