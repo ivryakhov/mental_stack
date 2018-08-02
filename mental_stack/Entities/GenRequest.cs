@@ -5,12 +5,6 @@
         public Meta Meta { get; set; }
         public Request Request { get; set; }
         public Session Session { get; set; }
-        public string Version { get; set; }
-
-
-        public GenResponse Process()
-        {
-            var command = Request.Parse();
-        }
+        public string Version { get; set; }        
     }
 }

@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using mental_stack.Entities;
+using mental_stack.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace mental_stack
@@ -15,6 +18,10 @@ namespace mental_stack
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            //const string connectionString = @"Server=(localdb)\MSSQLLocalDB;Database=MentalStackDb;Trusted_Connection=True;";
+            //services.AddDbContext<MemoryContext>(options => options.UseSqlServer(connectionString));
+            services.AddTransient<MStackService>();
+            services.AddMemoryCache();
             services.AddMvc();
         }
 
@@ -25,7 +32,6 @@ namespace mental_stack
             {
                 app.UseDeveloperExceptionPage();
             }
-
             app.UseMvc();
         }
     }

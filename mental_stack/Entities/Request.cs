@@ -16,9 +16,9 @@ namespace mental_stack.Entities
         public string Parse()
         {
             if (Command == "положи на стек")
-                return "PUT";
+                return "PUSH";
             else if (Command == "возьми со стека")
-                return "GET";
+                return "POP";
             else
                 return "UNKNOWN";
         }
