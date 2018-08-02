@@ -18,8 +18,6 @@ namespace mental_stack
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            //const string connectionString = @"Server=(localdb)\MSSQLLocalDB;Database=MentalStackDb;Trusted_Connection=True;";
-            //services.AddDbContext<MemoryContext>(options => options.UseSqlServer(connectionString));
             services.AddTransient<MStackService>();
             services.AddMemoryCache();
             services.AddMvc();

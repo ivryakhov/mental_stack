@@ -11,11 +11,9 @@ namespace mental_stack.Services
     public class MStackService
     {
         private const int _timeout = 5;
-        //private MemoryContext _db;
         private IMemoryCache _cache;
         public MStackService(IMemoryCache memoryCache)
         {
-           // _db = context;
             _cache = memoryCache;
         }
 
@@ -24,7 +22,6 @@ namespace mental_stack.Services
             Stack<string> messages = new Stack<string>();
             messages.Push(message);
             MStack mStack = new MStack { User = user, Messages = messages };
-            //_db.MStacks.Add(mStack);
             SaveChanges(user, mStack);
         }
 
@@ -39,7 +36,6 @@ namespace mental_stack.Services
             {
                 mStack.Messages.Push(message);
                 SaveChanges(user, mStack);
-                //_db.MStacks.Update(mStack);
             }
             
             return "OK";
@@ -57,7 +53,6 @@ namespace mental_stack.Services
                 string message;
                 if (mStack.Messages.TryPop(out message))
                 {
-                   // _db.MStacks.Update(mStack);
                     SaveChanges(user, mStack);
                     return message;
                 }
@@ -70,23 +65,15 @@ namespace mental_stack.Services
         {
             MStack mStack = null;
             _cache.TryGetValue(user, out mStack);
-            
-               // mStack = await _db.MStacks.FirstOrDefaultAsync(m => m.User == user);
-            
-
             return mStack;
         }
 
         private void SaveChanges(string user, MStack mStack)
         {
-           // int n = _db.SaveChanges();
-           // if (n > 0)
-           // {
-                _cache.Set(user, mStack, new MemoryCacheEntryOptions
+            _cache.Set(user, mStack, new MemoryCacheEntryOptions
                 {
                     AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(_timeout)
                 });
-           // }
         }
     }
 }
