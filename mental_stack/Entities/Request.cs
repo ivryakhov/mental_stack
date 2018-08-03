@@ -4,23 +4,27 @@ namespace mental_stack.Entities
 {
     public class Request
     {
+       public enum RequestKind { Push, Pop, Unknown }
+
         public string Command { get; set; }
 
         [JsonProperty("original_utterance")]
         public string OriginalUtterance { get; set; }
 
-        public string Type  { get; set; }
+        public string Type { get; set; }
         public Markup Markup { get; set; }
         public Payload Payload { get; set; }
+        public RequestKind Kind { get; }
 
-        public string Parse()
+        public Request(string command)
         {
+            Command = command;
             if (Command == "положи на стек")
-                return "PUSH";
+                Kind = RequestKind.Push;
             else if (Command == "возьми со стека")
-                return "POP";
+                Kind = RequestKind.Pop;
             else
-                return "UNKNOWN";
+                Kind = RequestKind.Unknown;
         }
     }
 }

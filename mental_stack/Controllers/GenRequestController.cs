@@ -14,17 +14,16 @@ namespace mental_stack.Controllers
         }
 
         [HttpPost]
-        public IActionResult GetRequestAsync([FromBody] GenRequest genRequest)
+        public IActionResult GetRequest([FromBody] GenRequest genRequest)
         {
-            var command = genRequest.Request.Parse();
-            string reply;
-            switch (command)
+            string reply = "";
+            switch (genRequest.Request.Kind)
             {
-                case "PUSH":
+                case Entities.Request.RequestKind.Push:
                     reply = _mStackService.Push(genRequest.Session.UserId,
                                                       genRequest.Request.OriginalUtterance);
                     break;
-                case "POP":
+                case Entities.Request.RequestKind.Pop:
                     reply = _mStackService.Pop(genRequest.Session.UserId);
                     break;
                 default:
