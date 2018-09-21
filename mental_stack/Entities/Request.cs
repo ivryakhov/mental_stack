@@ -19,9 +19,10 @@ namespace mental_stack.Entities
         public Request(string command)
         {
             Command = command;
-            if (Command == "положи на стек")
+            var firtsWord = command.Split(' ').GetValue(0).ToString();
+            if (string.Equals(firtsWord, "положи", System.StringComparison.OrdinalIgnoreCase))
                 Kind = RequestKind.Push;
-            else if (Command == "возьми со стека")
+            else if ((string.Equals(firtsWord, "возьми", System.StringComparison.OrdinalIgnoreCase)))
                 Kind = RequestKind.Pop;
             else
                 Kind = RequestKind.Unknown;
