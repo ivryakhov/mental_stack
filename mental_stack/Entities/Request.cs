@@ -4,7 +4,7 @@ namespace MentalStack.Entities
 {
     public class Request
     {
-       public enum RequestKind { Push, Pop, Unknown }
+        public enum RequestKind { Push, Pop, Unknown }
 
         public string Command { get; set; }
 

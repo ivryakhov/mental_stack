@@ -20,11 +20,11 @@ namespace MentalStack.Controllers
             switch (genRequest.Request.Kind)
             {
                 case Entities.Request.RequestKind.Push:
-                    reply = _mStackService.Push(genRequest.Session.UserId,
+                    var res = _mStackService.Push(genRequest.Session.UserId,
                                                       genRequest.Request.OriginalUtterance);
                     break;
                 case Entities.Request.RequestKind.Pop:
-                    reply = _mStackService.Pop(genRequest.Session.UserId);
+                    var res2 = _mStackService.Pop(genRequest.Session.UserId, out reply);
                     break;
                 default:
                     reply = "BADCOMMAND";

@@ -7,6 +7,7 @@ namespace MentalStack.Services
 {
     public class MStackService
     {
+        public enum ResultType { UserAdded, UserUpdated, PopSuccess, Failed, NoStack, };
         private const int _timeout = 5;
         private IMemoryCache _cache;
         public MStackService(IMemoryCache memoryCache)
@@ -14,56 +15,51 @@ namespace MentalStack.Services
             _cache = memoryCache;
         }
 
-        public string Push(string user, string message)
+        public ResultType Push(string user, string message)
         {
-            MStack mStack = FetchDatabase(user);
-            if (mStack == null)
+            ResultType result;
+            MStack mStack = null;
+            if(!_cache.TryGetValue(user, out mStack))
             {
-                AddNewMStack(user, message);             
+                mStack = CreateNewMStack(user, message);
+                result = ResultType.UserAdded;
             }
             else
             {
                 mStack.Messages.Push(message);
-                SaveChanges(user, mStack);
+                result = ResultType.UserUpdated;
+                
             }
-            
-            return "OK";
+            SaveChanges(user, mStack);
+            return result;
         }
 
-        public string Pop(string user)
+        public ResultType Pop(string user, out string message)
         {
-            MStack mStack = FetchDatabase(user);
-            if (mStack == null)
+            message = "";
+            MStack mStack = null;
+            if (!_cache.TryGetValue(user, out mStack))
             {
-                return "NO_SUCH_STACK";
+                return ResultType.NoStack;
             }
             else
             {
-                string message;
                 if (mStack.Messages.TryPop(out message))
                 {
                     SaveChanges(user, mStack);
-                    return message;
+                    return ResultType.PopSuccess;
                 }
                 else
-                    return "FAILED_TO_POP_OUT";
+                    return ResultType.Failed;
             }
         }
 
-        private void AddNewMStack(string user, string message)
+        private MStack CreateNewMStack(string user, string message)
         {
             Stack<string> messages = new Stack<string>();
             messages.Push(message);
-            MStack mStack = new MStack { User = user, Messages = messages };
-            SaveChanges(user, mStack);
-        }
-
-        private MStack FetchDatabase(string user)
-        {
-            MStack mStack = null;
-            _cache.TryGetValue(user, out mStack);
-            return mStack;
-        }
+            return new MStack { User = user, Messages = messages };
+         }
 
         private void SaveChanges(string user, MStack mStack)
         {
