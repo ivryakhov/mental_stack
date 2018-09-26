@@ -1,8 +1,8 @@
-﻿using mental_stack.Entities;
-using mental_stack.Services;
+﻿using MentalStack.Entities;
+using MentalStack.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace mental_stack.Controllers
+namespace MentalStack.Controllers
 {
     [Route("")]
     public class GenRequestController : Controller

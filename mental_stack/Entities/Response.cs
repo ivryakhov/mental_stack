@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace mental_stack.Entities
+namespace MentalStack.Entities
 {
     public class Response
     {

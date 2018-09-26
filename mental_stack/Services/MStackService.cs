@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using mental_stack.Entities;
-using Microsoft.EntityFrameworkCore;
+using MentalStack.Entities;
 using Microsoft.Extensions.Caching.Memory;
 
-namespace mental_stack.Services
+namespace MentalStack.Services
 {
     public class MStackService
     {
@@ -17,20 +14,12 @@ namespace mental_stack.Services
             _cache = memoryCache;
         }
 
-        public void AddNewMStack(string user, string message)
-        {
-            Stack<string> messages = new Stack<string>();
-            messages.Push(message);
-            MStack mStack = new MStack { User = user, Messages = messages };
-            SaveChanges(user, mStack);
-        }
-
         public string Push(string user, string message)
         {
             MStack mStack = FetchDatabase(user);
             if (mStack == null)
             {
-                AddNewMStack(user, message);                
+                AddNewMStack(user, message);             
             }
             else
             {
@@ -59,6 +48,14 @@ namespace mental_stack.Services
                 else
                     return "FAILED_TO_POP_OUT";
             }
+        }
+
+        private void AddNewMStack(string user, string message)
+        {
+            Stack<string> messages = new Stack<string>();
+            messages.Push(message);
+            MStack mStack = new MStack { User = user, Messages = messages };
+            SaveChanges(user, mStack);
         }
 
         private MStack FetchDatabase(string user)

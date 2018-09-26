@@ -1,4 +1,4 @@
-﻿namespace mental_stack.Entities
+﻿namespace MentalStack.Entities
 {
     public class GenRequest
     {

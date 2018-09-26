@@ -1,4 +1,4 @@
-using mental_stack.Entities;
+using MentalStack.Entities;
 using System;
 using Xunit;
 
