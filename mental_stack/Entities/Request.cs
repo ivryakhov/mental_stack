@@ -2,10 +2,8 @@
 
 namespace MentalStack.Entities
 {
-    public class Request : IWorkRequest
+    public class Request
     {
-        public enum RequestKind { Push, Pop, Unknown }
-
         public string Command { get; set; }
 
         [JsonProperty("original_utterance")]
@@ -14,16 +12,15 @@ namespace MentalStack.Entities
         public string Type { get; set; }
         public Markup Markup { get; set; }
         public Payload Payload { get; set; }
-        public RequestKind Kind { get; }
-
-        public IWorkRequest CreateRequest(string command)
+        
+        public IWorkRequest CreateWorkRequest(string userId, string command)
         {
             Command = command;
             var firtsWord = command.Split(' ').GetValue(0).ToString();
             if (string.Equals(firtsWord, "положи", System.StringComparison.OrdinalIgnoreCase))
-                return new PushRequest(Command, Markup, OriginalUtterance, Payload, Type);
+                return new PushRequest(userId, Command, Markup, OriginalUtterance, Payload, Type);
             else if ((string.Equals(firtsWord, "возьми", System.StringComparison.OrdinalIgnoreCase)))
-                return new PopRequest(Command, Markup, OriginalUtterance, Payload, Type);
+                return new PopRequest(userId, Command, Markup, OriginalUtterance, Payload, Type);
             else
                 return new UnknownRequest();
         }
