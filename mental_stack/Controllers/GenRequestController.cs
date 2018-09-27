@@ -17,7 +17,7 @@ namespace MentalStack.Controllers
         public IActionResult GetRequest([FromBody] GenRequest genRequest)
         {
             string reply = "";
-            switch (genRequest.Request.Kind)
+           /* switch (genRequest.Request.Kind)
             {
                 case Entities.Request.RequestKind.Push:
                     var res = _mStackService.Push(genRequest.Session.UserId,
@@ -29,7 +29,7 @@ namespace MentalStack.Controllers
                 default:
                     reply = "BADCOMMAND";
                     break;
-            }
+            }*/
             return Ok(new GenResponse() { Response = new Response() { Text = reply } });
         }
     }

@@ -2,7 +2,7 @@
 
 namespace MentalStack.Entities
 {
-    public class Request
+    public class Request : IWorkRequest
     {
         public enum RequestKind { Push, Pop, Unknown }
 
@@ -16,16 +16,16 @@ namespace MentalStack.Entities
         public Payload Payload { get; set; }
         public RequestKind Kind { get; }
 
-        public Request(string command)
+        public IWorkRequest CreateRequest(string command)
         {
             Command = command;
             var firtsWord = command.Split(' ').GetValue(0).ToString();
             if (string.Equals(firtsWord, "положи", System.StringComparison.OrdinalIgnoreCase))
-                Kind = RequestKind.Push;
+                return new PushRequest(Command, Markup, OriginalUtterance, Payload, Type);
             else if ((string.Equals(firtsWord, "возьми", System.StringComparison.OrdinalIgnoreCase)))
-                Kind = RequestKind.Pop;
+                return new PopRequest(Command, Markup, OriginalUtterance, Payload, Type);
             else
-                Kind = RequestKind.Unknown;
+                return new UnknownRequest();
         }
     }
 }
