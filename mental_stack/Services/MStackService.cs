@@ -7,7 +7,7 @@ namespace MentalStack.Services
 {
     public class MStackService
     {
-        public enum ResultType { UserAdded, UserUpdated, PopSuccess, Failed, NoStack, };
+        public enum ResultType { UserAdded, UserUpdated, PopSuccess, EmptyStack, NoStack, };
         private const int _timeout = 5;
         private IMemoryCache _cache;
         public MStackService(IMemoryCache memoryCache)
@@ -38,11 +38,7 @@ namespace MentalStack.Services
         {
             message = "";
             MStack mStack = null;
-            if (!_cache.TryGetValue(user, out mStack))
-            {
-                return ResultType.NoStack;
-            }
-            else
+            if (_cache.TryGetValue(user, out mStack))
             {
                 if (mStack.Messages.TryPop(out message))
                 {
@@ -50,7 +46,11 @@ namespace MentalStack.Services
                     return ResultType.PopSuccess;
                 }
                 else
-                    return ResultType.Failed;
+                    return ResultType.EmptyStack;
+            }
+            else
+            {
+                return ResultType.NoStack; 
             }
         }
 
