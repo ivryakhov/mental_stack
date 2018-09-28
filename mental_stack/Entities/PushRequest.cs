@@ -1,28 +1,32 @@
-﻿using System;
+﻿using MentalStack.Services;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MentalStack.Entities
 {
     public class PushRequest : IWorkRequest
     {
-        private string _user;
-        private string _command;
-        private Markup _markup;
-        private string _originalUtterance;
-        private Payload _payload;
-        private string _type;
+        private readonly Dictionary<MStackService.ResultType, string> _resultMessages =
+            new Dictionary<MStackService.ResultType, string>
+            {
+                { MStackService.ResultType.UserAdded, "Стэк создан и запись успешно добавлена" },
+                { MStackService.ResultType.UserUpdated, "Сохранено" }
+            };
 
-        public PushRequest(string user, string command, Markup markup, string originalUtterance,
-                           Payload payload, string type)
+        private readonly string _user;
+        private readonly string _originalUtterance;
+
+        public PushRequest(string user, string originalUtterance)
         {
             _user = user;
-            _command = command;
-            _markup = markup;
+
+            // TODO: parse originalUtterance to clean of service words
             _originalUtterance = originalUtterance;
-            _payload = payload;
-            _type = type;
+        }
+
+        public string ProcessRequest(MStackService mStackService)
+        {
+            var resType = (mStackService.Push(_user, _originalUtterance));
+            return _resultMessages[resType];
         }
     }
 }

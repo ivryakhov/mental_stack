@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using MentalStack.Services;
 
 namespace MentalStack.Entities
 {
     public class UnknownRequest : IWorkRequest
     {
+        public string ProcessRequest(MStackService mStackService)
+        {
+            return "Неизвестный запрос";
+        }
     }
 }

@@ -1,7 +1,9 @@
-﻿namespace MentalStack.Entities
+﻿using MentalStack.Services;
+
+namespace MentalStack.Entities
 {
     public interface IWorkRequest
     {
-        Response ProcessRequest();
+        string ProcessRequest(MStackService mStackService);
     }
 }

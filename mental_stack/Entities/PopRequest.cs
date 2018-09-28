@@ -1,34 +1,31 @@
 ﻿using MentalStack.Services;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MentalStack.Entities
 {
     public class PopRequest : IWorkRequest
     {
-        private string _user;
-        private string _command;
-        private Markup _markup;
-        private string _originalUtterance;
-        private Payload _payload;
-        private string _type;
+        private readonly Dictionary<MStackService.ResultType, string> _resultMessages =
+            new Dictionary<MStackService.ResultType, string>
+            {
+                { MStackService.ResultType.EmptyStack, "Ваш стэк пуст" },
+                { MStackService.ResultType.NoStack, "Чтобы что-то взять, нужно сначала что-то положить" }
+            };
 
-        public PopRequest(string user, string command, Markup markup, string originalUtterance,
-                           Payload payload, string type)
+        private readonly string _user;
+
+        public PopRequest(string user)
         {
             _user = user;
-            _command = command;
-            _markup = markup;
-            _originalUtterance = originalUtterance;
-            _payload = payload;
-            _type = type;
         }
 
         public string ProcessRequest(MStackService mStackService)
         {
-            mStackService.Pop(_user, out string message)
+            var resType = (mStackService.Pop(_user, out string message));
+            if (resType == MStackService.ResultType.PopSuccess)
+                return message;
+            else
+                return _resultMessages[resType];
         }
     }
 }

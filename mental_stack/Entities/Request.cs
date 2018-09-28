@@ -18,9 +18,9 @@ namespace MentalStack.Entities
             Command = command;
             var firtsWord = command.Split(' ').GetValue(0).ToString();
             if (string.Equals(firtsWord, "положи", System.StringComparison.OrdinalIgnoreCase))
-                return new PushRequest(userId, Command, Markup, OriginalUtterance, Payload, Type);
+                return new PushRequest(userId, OriginalUtterance);
             else if ((string.Equals(firtsWord, "возьми", System.StringComparison.OrdinalIgnoreCase)))
-                return new PopRequest(userId, Command, Markup, OriginalUtterance, Payload, Type);
+                return new PopRequest(userId);
             else
                 return new UnknownRequest();
         }
