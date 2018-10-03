@@ -13,10 +13,9 @@ namespace MentalStack.Entities
         public Markup Markup { get; set; }
         public Payload Payload { get; set; }
         
-        public IWorkRequest CreateWorkRequest(string userId, string command)
+        public IWorkRequest CreateWorkRequest(string userId)
         {
-            Command = command;
-            var firtsWord = command.Split(' ').GetValue(0).ToString();
+            var firtsWord = Command.Split(' ').GetValue(0).ToString();
             if (string.Equals(firtsWord, "положи", System.StringComparison.OrdinalIgnoreCase))
                 return new PushRequest(userId, OriginalUtterance);
             else if ((string.Equals(firtsWord, "возьми", System.StringComparison.OrdinalIgnoreCase)))
