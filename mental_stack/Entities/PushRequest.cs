@@ -25,8 +25,14 @@ namespace MentalStack.Entities
 
         public string ProcessRequest(MStackService mStackService)
         {
-            var resType = (mStackService.Push(_user, _originalUtterance));
+            var resType = (mStackService.Push(_user, CleanUtterance(_originalUtterance)));
             return _resultMessages[resType];
+        }
+
+        private string CleanUtterance (string utterance)
+        {
+            var parts = utterance.Split("стек");
+            return parts[1];
         }
     }
 }
