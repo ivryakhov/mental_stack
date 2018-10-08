@@ -1,6 +1,7 @@
 ﻿using MentalStack.Entities;
 using MentalStack.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace MentalStack.Controllers
 {
@@ -8,9 +9,13 @@ namespace MentalStack.Controllers
     public class GenRequestController : Controller
     {
         private MStackService _mStackService;
-        public GenRequestController(MStackService mStackService)
+        private readonly ILogger<GenRequestController> _logger;
+
+        public GenRequestController(MStackService mStackService, ILogger<GenRequestController> logger)
         {
             _mStackService = mStackService;
+            _logger = logger;
+            _logger.LogInformation("GenRequestController started");
         }
 
         [HttpPost]
