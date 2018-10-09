@@ -8,7 +8,7 @@ namespace MentalStack.Controllers
     [Route("")]
     public class GenRequestController : Controller
     {
-        private MStackService _mStackService;
+        private readonly MStackService _mStackService;
         private readonly ILogger<GenRequestController> _logger;
 
         public GenRequestController(MStackService mStackService, ILogger<GenRequestController> logger)
