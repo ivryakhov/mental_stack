@@ -18,8 +18,6 @@ namespace MentalStack.Entities
         public PushRequest(string user, string originalUtterance)
         {
             _user = user;
-
-            // TODO: parse originalUtterance to clean of service words
             _originalUtterance = originalUtterance;
         }
 
@@ -31,7 +29,8 @@ namespace MentalStack.Entities
 
         private string CleanUtterance (string utterance)
         {
-            var parts = utterance.Split("стек");
+            string[] delimiters = { "стек,", "стек" };
+            var parts = utterance.Split(delimiters, System.StringSplitOptions.RemoveEmptyEntries);
             return parts[1];
         }
     }
